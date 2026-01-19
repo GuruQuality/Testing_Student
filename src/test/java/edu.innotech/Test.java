@@ -2,6 +2,7 @@ package edu.innotech;
 
 //import org.junit.Test;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 
 import java.util.List;
@@ -10,9 +11,12 @@ public class Test {
     @org.junit.jupiter.api.Test
     @DisplayName("корректные оценки добавляются в список")
     public void markInRage() {
-        List<Integer> list = List.of(2, 3, 4, 5);
         Student student = new Student("Vasia");
-        //Assertions.assertEquals(list, student.getMark(), "test error");
+        student.addGrade(5);
+        student.getGrades().add(999);
+        for (int grade : student.getGrades()) {
+            Assertions.assertTrue(grade >= 2 && grade <=5, "Не допустимая оценка: " + grade);
+        }
     }
 
     @org.junit.jupiter.api.Test
