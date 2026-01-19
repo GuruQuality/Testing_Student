@@ -13,9 +13,9 @@ public class Test {
     public void markInRage() {
         Student student = new Student("Vasia");
         student.addGrade(5);
-        student.getGrades().add(999);
+        Assertions.assertThrows(UnsupportedOperationException.class, () -> student.getGrades().add(999));
         for (int grade : student.getGrades()) {
-            Assertions.assertTrue(grade >= 2 && grade <=5, "Не допустимая оценка: " + grade);
+            Assertions.assertTrue(grade >= 2 && grade <= 5, "Не допустимая оценка: " + grade);
         }
     }
 
