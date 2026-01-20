@@ -20,17 +20,63 @@ public class Test {
     }
 
     @org.junit.jupiter.api.Test
-    @DisplayName("добавление неверных оценок кидает исключение")
-    public void marskNotInPange() {
-        List<Integer> list = List.of(2, 1, 6, 7);
+    @DisplayName("не корректные оценки не добавляются в список")
+    public void markNotInRage() {
         Student student = new Student("Vasia");
-        //student.addMark(list.get(1));
-        //student.addMark(list.get(2));
-        //student.addMark(list.get(3));
-        //ПРоверка на выпадающее исключение
-//        Assertions.assertThrows(IllegalArgumentException.class, () -> student.addMark(list.get(1)));//получаем елимент в листе
-//        Assertions.assertDoesNotThrow(() -> student.addMark(3));// тест - не получаем исключение при вызове
-        //Assertions.assertThrows(IllegalArgumentException.class, () -> student.addMark(2));
-        //Assertions.assertThrows(IllegalArgumentException.class, () -> student.addMark(5));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> student.addGrade(999), "Не допустимая оценка добавилась ");
+    }
+
+    @org.junit.jupiter.api.Test
+    @DisplayName("корректное сравнение идентичных объектов")
+    public void equals() {
+        Student student1 = new Student("Vasia");
+        student1.addGrade(4);
+        Student student2 = new Student("Vasia");
+        student2.addGrade(4);
+        Assertions.assertTrue(student1.equals(student2), "ошибка сравнения идентичных объектов");
+    }
+
+    @org.junit.jupiter.api.Test
+    @DisplayName("корректное сравнение идентичных объектов по HashCode")
+    public void equalsViaHash() {
+        Student student1 = new Student("Vasia");
+        student1.addGrade(4);
+        Student student2 = new Student("Vasia");
+        student2.addGrade(4);
+        Assertions.assertEquals(student1.hashCode(), student2.hashCode(), "ошибка сравнения идентичных объектов");
+    }
+
+    @org.junit.jupiter.api.Test
+    @DisplayName("корректное сравнение не идентичных объектов")
+    public void notEquals() {
+        Student student1 = new Student("VasiaSuperStar");
+        student1.addGrade(4);
+        Student student2 = new Student("Vasia");
+        student2.addGrade(4);
+        Assertions.assertFalse(student1.equals(student2), "ошибка сравнения не идентичных объектов");
+    }
+
+    @org.junit.jupiter.api.Test
+    @DisplayName("корректное сравнение обекта самого с собой")
+    public void equalsSalf() {
+        Student student1 = new Student("VasiaSuperStar");
+        student1.addGrade(4);
+        Assertions.assertTrue(student1.equals(student1), "ошибка сравнения не идентичных объектов");
+    }
+
+    @org.junit.jupiter.api.Test
+    @DisplayName("корректное сравнение обекта с null")
+    public void equalsNull() {
+        Student student1 = new Student("VasiaSuperStar");
+        student1.addGrade(4);
+        Assertions.assertFalse(student1.equals(null), "ошибка сравнения не идентичных объектов");
+    }
+
+    @org.junit.jupiter.api.Test
+    @DisplayName("корректное сравнение обекта с другим типом объекта")
+    public void equalsOther() {
+        Student student1 = new Student("VasiaSuperStar");
+        student1.addGrade(4);
+        Assertions.assertFalse(student1.equals(new Object()), "ошибка сравнения не идентичных объектов");
     }
 }
