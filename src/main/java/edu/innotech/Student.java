@@ -1,15 +1,25 @@
 package edu.innotech;
 
-import java.sql.SQLException;
-import java.util.*;
+import lombok.*;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.SneakyThrows;
-import lombok.ToString;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @ToString
+@EqualsAndHashCode
 public class Student {
+    @Setter
+    private Service service;
+
+    @Getter
+    @Setter
     private String name;
     private List<Integer> grades = new ArrayList<>();
 
@@ -17,53 +27,25 @@ public class Student {
         this.name = name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
+    public void setService(Service service) {
+        this.service = service;
     }
 
     public List<Integer> getGrades() {
-        return Collections.unmodifiableList(grades);
+        return new ArrayList<>(grades);
     }
 
-    public void addGrade(int grade) {
-        if (grade < 2 || grade > 5) {
+
+    @SneakyThrows
+    public void addGrade(int grade) throws IOException {
+        if (!service.checkGrade(grade)) {
             throw new IllegalArgumentException(grade + " is wrong grade");
         }
         grades.add(grade);
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 13 * hash + Objects.hashCode(this.name);
-        hash = 13 * hash + Objects.hashCode(this.grades);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Student other = (Student) obj;
-        if (!Objects.equals(this.name, other.name)) {
-            return false;
-        }
-        return Objects.equals(this.grades, other.grades);
-    }
-
-    @Override
-    public String toString() {
-        return "Student{" + "name=" + name + ", marks=" + grades + '}';
+    @SneakyThrows
+    public int raiting() throws IOException {
+        return service.educ(grades.stream().mapToInt(x -> x).sum());
     }
 }
