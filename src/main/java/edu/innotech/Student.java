@@ -1,9 +1,7 @@
 package edu.innotech;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -13,7 +11,7 @@ import lombok.ToString;
 @ToString
 public class Student {
     private String name;
-    private List<Integer> grades= new ArrayList<>();
+    private List<Integer> grades = new ArrayList<>();
 
     public Student(String name) {
         this.name = name;
@@ -28,7 +26,7 @@ public class Student {
     }
 
     public List<Integer> getGrades() {
-        return grades;
+        return Collections.unmodifiableList(grades);
     }
 
     public void addGrade(int grade) {
