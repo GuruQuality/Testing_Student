@@ -26,7 +26,10 @@ public class Student {
     }
 
     public List<Integer> getGrades() {
-        return Collections.unmodifiableList(grades);
+        //return Collections.unmodifiableList(grades);
+        //return List.copyOf(grades);
+        return new ArrayList<>(grades);
+        //return grades;
     }
 
     public void addGrade(int grade) {
